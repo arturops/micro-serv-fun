@@ -1,7 +1,8 @@
 version: '2.2'
 services:
   backend:
-    image: educative1/python_django_flask:latest
+    # use Dockerfile to build image
+    build: .
     command: 'python3 manage.py runserver 0.0.0.0:8000'
     ports:
       - 8000:8000
