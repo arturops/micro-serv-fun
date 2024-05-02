@@ -1,0 +1,10 @@
+version: '3'
+services:
+  backend:
+    # use Dockerfile to build image
+    build: .
+    command: 'python3 core.py'
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/backendservice
