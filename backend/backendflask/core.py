@@ -1,6 +1,10 @@
+from dataclasses import dataclass
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+
+from sqlalchemy import UniqueConstraint
 
 
 core = Flask(__name__)
@@ -11,6 +15,27 @@ CORS(core)
 core.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://microservice:microservice@db/core'
 
 db = SQLAlchemy(core)
+
+
+@dataclass
+class House(db.model):
+    id: int
+    name: str
+    image: str
+    description: str
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=False)
+    name = db.Column(db.String(150))
+    image = db.Column(db.String(150))
+    description = db.Column(db.String(150))
+
+
+@dataclass
+class HouseChecker(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    checker_id = db.Column(db.Integer)
+    house_id = db.Column(db.Integer)
+    UniqueConstraint('checker_id', 'house_id', name='checker_house_unique')
 
 
 @core.route('/')
